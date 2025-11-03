@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="300" viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Ecomet logo</title>
+  <desc id="desc">Ecomet — a modern e-commerce API platform with a comet icon and wordmark</desc>
+
+  <defs>
+    <!-- gradient for comet tail -->
+    <linearGradient id="gTail" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#00B4D8"/>
+      <stop offset="0.55" stop-color="#7B61FF"/>
+      <stop offset="1" stop-color="#FF7AA2"/>
+    </linearGradient>
+
+    <!-- subtle shadow -->
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.16"/>
+    </filter>
+
+    <!-- rounded mask for icon -->
+    <clipPath id="round">
+      <rect x="0" y="0" width="160" height="160" rx="28" ry="28"/>
+    </clipPath>
+  </defs>
+
+  <!-- background (optional when using on dark bg, keep transparent otherwise) -->
+  <!-- <rect width="100%" height="100%" fill="#0b1020"/> -->
+
+  <!-- icon group -->
+  <g transform="translate(40,50)" filter="url(#shadow)">
+    <!-- container -->
+    <rect x="0" y="0" width="160" height="160" rx="28" ry="28" fill="white" />
+    <g clip-path="url(#round)">
+      <!-- comet tail (gradient) -->
+      <path d="M20 100 C120 40, 220 40, 300 20 L250 40 C180 56, 120 72, 60 120 C40 140, 24 134, 20 100 Z"
+            transform="translate(-40,-40) scale(0.45)"
+            fill="url(#gTail)" opacity="0.95"/>
+      <!-- comet head (circle) -->
+      <circle cx="90" cy="78" r="34" fill="#0b1220"/>
+      <!-- stylized 'e' cutout in the head -->
+      <path d="M85 72 C95 72, 105 72, 105 82 C105 92, 95 96, 85 96 C75 96, 65 88, 65 78 C65 68, 75 64, 85 64 C92 64, 97 66, 100 70"
+            fill="none" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- small sparkle -->
+      <path d="M148 34 L154 24 L160 34 L150 32 L148 34 Z" fill="#FFD166" transform="scale(0.9) translate(-6,6)"/>
+    </g>
+  </g>
+
+  <!-- wordmark -->
+  <g transform="translate(240,120)">
+    <!-- Ecomet text (use system sans-serif for portability) -->
+    <text x="0" y="6" font-family="Inter, Roboto, system-ui, -apple-system, 'Segoe UI', Arial" font-weight="700" font-size="56" fill="#0b1220">
+      Ecomet
+    </text>
+
+    <!-- tagline -->
+    <text x="0" y="42" font-family="Inter, Roboto, system-ui, -apple-system, 'Segoe UI', Arial" font-weight="500" font-size="16" fill="#52607a" letter-spacing="0.2">
+      Fast product APIs for modern e-commerce
+    </text>
+  </g>
+
+  <!-- small accent comet trail under wordmark -->
+  <g transform="translate(240,90) scale(0.7)">
+    <path d="M12 20 C60 2, 150 -10, 240 -18" stroke="url(#gTail)" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <circle cx="250" cy="-21" r="6" fill="#FF7AA2"/>
+  </g>
+</svg>
