@@ -172,10 +172,10 @@ The project includes necessary configuration files for Vercel deployment:
 
 
 ## Frontend URL
-Link:
+Link: [https://ecomet-qw95.vercel.app/]
 
 ## Backend URL (Deployed on vercel with accnt btech1)
-Link:
+Link: [https://ecomet-livid.vercel.app/]
 
 
 How we are handling the Security
