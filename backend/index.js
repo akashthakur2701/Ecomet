@@ -18,19 +18,40 @@ dotenv.config({
 const PORT = process.env.PORT || 8080;
 const app = express();
 
-const CLIENT_URL = process.env.CLIENT_URL;
-const normalizedClientUrl = CLIENT_URL.replace(/\/$/, '');
+const CLIENT_URL = process.env.CLIENT_URL?.replace(/\/$/, '');
+const allowedOrigins = [
+  CLIENT_URL,                   
+  'http://localhost:5173',      
+];
 
-console.log(CLIENT_URL);
-app.use(cors({
-    origin: [
-        normalizedClientUrl,
-        `${normalizedClientUrl}/`
-    ],
-    credentials: true,
+console.log('CORS allowed origins:', allowedOrigins);
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); 
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        console.warn('❌ CORS Blocked Origin:', origin);
+        return callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true, 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token', 'X-Requested-With', 'Accept', 'Accept-Version', 'Content-Length', 'Content-MD5', 'Date', 'X-Api-Version']
-}));
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-CSRF-Token',
+      'X-Requested-With',
+      'Accept',
+      'Accept-Version',
+      'Content-Length',
+      'Content-MD5',
+      'Date',
+      'X-Api-Version',
+    ],
+  })
+);
 
 app.use(express.json({ limit: "1000kb" }));
 app.use(cookieParser());
