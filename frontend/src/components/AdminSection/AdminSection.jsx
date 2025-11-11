@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 import ProductCard from "./ProductCard";
+import { getCsrfToken } from "../../utils/csrfToken";
 
 const baseurl = import.meta.env.VITE_BASE_URL;
 
@@ -114,8 +115,14 @@ const AdminSection = () => {
     });
 
     try {
+      // Get CSRF token from cookie
+      const csrfToken = getCsrfToken();
+      
       await axios.post(`${baseurl}/createProduct`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: { 
+          "Content-Type": "multipart/form-data",
+          ...(csrfToken && { "X-CSRF-Token": csrfToken }),
+        },
         withCredentials: true,
         credentials: 'include',
       });

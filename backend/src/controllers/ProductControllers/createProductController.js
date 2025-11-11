@@ -104,7 +104,7 @@ export const getAdminProducts = async(req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Internal server error(Fetching products from database)", products });
+        res.status(500).json({ message: "Internal server error(Fetching products from database)" });
     }
 }
 

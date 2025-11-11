@@ -19,14 +19,24 @@ const authMiddleware = (req, res, next) => {
     // Decode the token using the secret key
     const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
 
-    // Set email and objectId to req.user
-    req.user = decoded.email
+    // Set all user details to req.user (objectId, name, email, role)
+    req.user = {
+      objectId: decoded.objectId,
+      name: decoded.name,
+      email: decoded.email,
+      role: decoded.role
+    };
     console.log("req.user", req.user); 
     // Proceed to the next middleware or route handler
     next();
   } catch (err) {
     // If token is invalid or expired, clear the cookie and return an error
-    res.clearCookie("token");
+    res.clearCookie("token", {
+      path: "/",
+      secure: true,
+      httpOnly: true,
+      sameSite: 'none'
+    });
     return res.status(400).send(err.message);
   }
 };

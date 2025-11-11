@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { Copy, Plus, Key, Trash2 } from "lucide-react";
+import { getCsrfToken } from "../../utils/csrfToken";
 import 'react-toastify/dist/ReactToastify.css';
 
 const baseurl = import.meta.env.VITE_BASE_URL;
@@ -36,8 +37,14 @@ function ApiEndpoints() {
     if (window.confirm("Are you sure you want to delete this API key? This action cannot be undone.")) {
       setIsDeleting(true);
       try {
+        // Get CSRF token from cookie
+        const csrfToken = getCsrfToken();
+        
         await axios.delete(`${baseurl}/deleteApiKey/${apiKey}`, {
-          withCredentials: true
+          withCredentials: true,
+          headers: {
+            ...(csrfToken && { "X-CSRF-Token": csrfToken }),
+          },
         });
         setApiKeys(prev => prev.filter(key => key.apiKey !== apiKey));
         toast.success("API key deleted successfully!");
@@ -57,10 +64,19 @@ function ApiEndpoints() {
 
     setIsGenerating(true);
     try {
+      // Get CSRF token from cookie
+      const csrfToken = getCsrfToken();
+      
       const response = await axios.post(
         `${baseurl}/generateNewApiKey`,
         { keyName: newKeyName },
-        { withCredentials: true }
+        { 
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            ...(csrfToken && { "X-CSRF-Token": csrfToken }),
+          },
+        }
       );
       setApiKeys(prev => [...prev, response.data.apiKey]);
       setNewKeyName("");

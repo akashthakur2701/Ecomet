@@ -8,6 +8,8 @@ import cookieParser from 'cookie-parser';
 import createProductRoutes from './src/routes/createProductRoutes.js';
 import getProductsRoutes from './src/routes/getProductsRoutes.js';
 import user from './src/routes/user.js';
+import sanitizeInput from './src/middlewares/inputSanitizationMiddleware.js';
+import { generateCsrfToken } from './src/middlewares/csrfMiddleware.js';
 
 dotenv.config({
     path: "./.env"
@@ -33,6 +35,10 @@ app.use(cors({
 app.use(express.json({ limit: "1000kb" }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "1000kb" }));
+// Apply input sanitization middleware to all routes (XSS and NoSQL injection protection)
+app.use(sanitizeInput);
+// Generate CSRF token for all requests (client can read from cookie)
+app.use(generateCsrfToken);
 app.use(express.static("public"));
 
 app.use("/api/v1", loginroutes);

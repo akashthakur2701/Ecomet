@@ -172,9 +172,12 @@ export default function Docs(){
                 )}
 
                 {activeTab === 'categories' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Info className="h-5 w-5 text-info mt-0.5" />
-                    <p className="text-sm">"Just click on the copy, the whole url will be copied, later just replace "yourApiKey" with generated api key"</p>
+                  <div className="space-y-6">
+                    <div className="bg-info/10 border border-info/20 rounded-lg p-4 flex gap-3 items-start">
+                      <Info className="h-5 w-5 text-info mt-0.5 flex-shrink-0" />
+                      <p className="text-sm text-base-content">Just click on the copy button, the whole URL will be copied. Later, just replace "yourApiKey" with your generated API key.</p>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {Object.entries(categories).map(([category, subcategories]) => (
                       <div key={category} className="card bg-base-200 hover:shadow-lg transition-shadow">
                         <div className="card-body">
@@ -210,6 +213,7 @@ export default function Docs(){
                         </div>
                       </div>
                     ))}
+                    </div>
                   </div>
                 )}
 

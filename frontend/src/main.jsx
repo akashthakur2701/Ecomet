@@ -51,7 +51,7 @@ const Main = () => {
                 const response = await axios.get(`${baseurl}/getUserDetails`, {
                     withCredentials: true, // Include the cookie in the request
                 });
-                const { email, role, name } = response.data;``
+                const { email, role, name } = response.data;
                 dispatch(addEmail({ email, role, name })); // Dispatch user details to Redux store
             } catch (error) {
                 console.error('Error fetching user details:', error);

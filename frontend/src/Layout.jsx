@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 
 function Layout() {
   return (
-    <div>
+    <div data-theme="light" className="min-h-screen">
       <Header />
       <Outlet/>
       <Footer />

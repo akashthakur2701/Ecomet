@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Edit2, Trash2, Save, X, ChevronDown } from 'lucide-react';
 import { toast } from "react-toastify";
 import axios from 'axios';
+import { getCsrfToken } from '../../utils/csrfToken';
 
 const baseurl = import.meta.env.VITE_BASE_URL;
 
@@ -64,10 +65,19 @@ const ProductCard = ({ product, onUpdate, onDelete, categories }) => {
     
     setLoading(true);
     try {
+      // Get CSRF token from cookie
+      const csrfToken = getCsrfToken();
+      
       const response = await axios.put(
-        `${baseurl}update-product/${product._id}`,
+        `${baseurl}/update-product/${product._id}`,
         editedProduct,
-        { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        { 
+          headers: { 
+            'Content-Type': 'application/json',
+            ...(csrfToken && { "X-CSRF-Token": csrfToken }),
+          }, 
+          withCredentials: true 
+        }
       );
 
       if (response.data.message === "Product updated successfully") {
@@ -87,9 +97,17 @@ const ProductCard = ({ product, onUpdate, onDelete, categories }) => {
     
     setLoading(true);
     try {
+      // Get CSRF token from cookie
+      const csrfToken = getCsrfToken();
+      
       const response = await axios.delete(
         `${baseurl}/delete-product/${product._id}`,
-        { withCredentials: true }
+        { 
+          withCredentials: true,
+          headers: {
+            ...(csrfToken && { "X-CSRF-Token": csrfToken }),
+          },
+        }
       );
       if (response.status === 200) {
         toast.success('Product deleted successfully!');

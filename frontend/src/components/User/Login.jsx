@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { addEmail } from "../../app/Slice/userSlice";
+import { getCsrfToken } from "../../utils/csrfToken";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const baseurl = import.meta.env.VITE_BASE_URL;
@@ -20,6 +21,9 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      // Get CSRF token from cookie
+      const csrfToken = getCsrfToken();
+      
       const res = await axios.post(
         `${baseurl}/login`,
         {
@@ -30,7 +34,8 @@ const Login = () => {
           withCredentials: true,
           credentials: 'include',
           headers: {
-            "Content-Type": 'application/x-www-form-urlencoded'
+            "Content-Type": "application/json",
+            ...(csrfToken && { "X-CSRF-Token": csrfToken }),
           },
         }
       );

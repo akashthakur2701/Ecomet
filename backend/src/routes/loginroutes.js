@@ -4,11 +4,13 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 import { userController } from "../controllers/User/userController.js";
 import { getApiKeys } from "../controllers/User/ApiController.js";
 import { logoutController, loginController } from "../controllers/User/userController.js";
+import { validateCsrfToken } from "../middlewares/csrfMiddleware.js";
 
 const router = express.Router();
 
-router.post("/register", createUser);
+// Apply CSRF validation to state-changing routes (POST, PUT, DELETE)
+router.post("/register", validateCsrfToken, createUser);
+router.post("/login", validateCsrfToken, loginController);
 router.get("/getUserDetails", authMiddleware, userController);
 router.get("/logout", authMiddleware, logoutController);
-router.post("/login", loginController);
 export default router;
